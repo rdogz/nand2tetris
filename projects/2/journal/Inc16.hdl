@@ -1,0 +1,1 @@
+The Inc16 was the hardest up until now because I had no Idea you could use constants like true or false. Without constants, hardware would be impossible. with them it is totally something I can do. Just feels bad since there isn't a really cool trick, it is just HDL semathics.

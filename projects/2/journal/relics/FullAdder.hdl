@@ -12,8 +12,10 @@ CHIP FullAdder {
 
     PARTS:
     //// Replace this comment with your code.
-    HalfAdder(a = a, b = b, sum = s, carry = cab);
-    HalfAdder(a = s, b = c, sum = sum, carry = cxc);
-
-    Or(a = cab, b = cxc, out = carry);
+    HalfAdder(a = a, b = b, sum = s, carry = cy);
+    Not(in = s, out = ns);
+    Or(a = a, b = b, out = ncy);
+    Mux(a = s, b = ns, sel = c, out = sum);
+    Mux(a = cy, b = ncy, sel = c, out = carry);
+    
 }

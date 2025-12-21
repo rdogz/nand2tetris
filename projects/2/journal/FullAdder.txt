@@ -1,7 +1,0 @@
-Developing the FullAdder was a little more complicated, After drawing the truth table of a, b and c, I saw that when c was 0, I could just do a normal HalfAdder operation, however, when c was 1 it was a little more complicated. 
-
-I firstly assumed the whole thing was flipped, but that was not the case. The sum collumn became a ~sum and the carry became a Or(a, b) instead of the normal And(a, b) in the Half adder.
-
-I was able to get to a working gate using 5 chips, which was not optimal. So I decided to use a little more time here to think of an optimal solution.
-
-I concluded that thinking about c as a selector was wrong, and that I should not discard any information I got (I was discarding the carries from the original adder). That way I realised I could just Or the carries of the two first adders! Yay! 

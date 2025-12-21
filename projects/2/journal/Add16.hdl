@@ -1,1 +1,0 @@
-This one was simple. Just chain the chips I made before, I did a little optmization with Xor at the last addition, since we didn't need the carry output.

@@ -1,0 +1,291 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/ALU.hdl
+//
+/**
+ * ALU (Arithmetic Logic Unit):
+ * Computes out = one of the following functions: 0, 1, -1, x, y, !x, !y, -x, -y,
+ *                x + 1, y + 1, x - 1, y - 1,
+ *                x + y, x - y, y - x,
+ *                x & y, x | y
+ * on the 16-bit inputs x, y,
+ * according to the input bits zx, nx, zy, ny, f, no.
+ * In addition, computes the two output bits:
+ * if (out == 0) zr = 1, else zr = 0
+ * if (out < 0)  ng = 1, else ng = 0
+ */
+// Implementation: Manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) sets x = 0        // 16-bit constant
+// if (nx == 1) sets x = !x       // bitwise not
+// if (zy == 1) sets y = 0        // 16-bit constant
+// if (ny == 1) sets y = !y       // bitwise not
+// if (f == 1)  sets out = x + y  // integer 2's complement addition
+// if (f == 0)  sets out = x & y  // bitwise and
+// if (no == 1) sets out = !out   // bitwise not
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute (out = x + y) or (out = x & y)?
+        no; // negate the out output?
+    OUT 
+        out[16], // 16-bit output
+        zr,      // if (out == 0) equals 1, else 0
+        ng;      // if (out < 0)  equals 1, else 0
+
+    PARTS:
+    //// Replace this comment with your code.
+    // zx
+    Not(in = zx, out = nzx);
+    And(a = x[0], b = nzx, out = zx0);
+    And(a = x[1], b = nzx, out = zx1);
+    And(a = x[2], b = nzx, out = zx2);
+    And(a = x[3], b = nzx, out = zx3);
+    And(a = x[4], b = nzx, out = zx4);
+    And(a = x[5], b = nzx, out = zx5);
+    And(a = x[6], b = nzx, out = zx6);
+    And(a = x[7], b = nzx, out = zx7);
+    And(a = x[8], b = nzx, out = zx8);
+    And(a = x[9], b = nzx, out = zx9);
+    And(a = x[10], b = nzx, out = zx10);
+    And(a = x[11], b = nzx, out = zx11);
+    And(a = x[12], b = nzx, out = zx12);
+    And(a = x[13], b = nzx, out = zx13);
+    And(a = x[14], b = nzx, out = zx14);
+    And(a = x[15], b = nzx, out = zx15);
+
+    // nx
+    Xor(a = zx0, b = nx, out = x0);
+    Xor(a = zx1, b = nx, out = x1);
+    Xor(a = zx2, b = nx, out = x2);
+    Xor(a = zx3, b = nx, out = x3);
+    Xor(a = zx4, b = nx, out = x4);
+    Xor(a = zx5, b = nx, out = x5);
+    Xor(a = zx6, b = nx, out = x6);
+    Xor(a = zx7, b = nx, out = x7);
+    Xor(a = zx8, b = nx, out = x8);
+    Xor(a = zx9, b = nx, out = x9);
+    Xor(a = zx10, b = nx, out = x10);
+    Xor(a = zx11, b = nx, out = x11);
+    Xor(a = zx12, b = nx, out = x12);
+    Xor(a = zx13, b = nx, out = x13);
+    Xor(a = zx14, b = nx, out = x14);
+    Xor(a = zx15, b = nx, out = x15);   
+
+    // zy   
+    Not(in = zy, out = nzy);
+    And(a = y[0], b = nzy, out = zy0);
+    And(a = y[1], b = nzy, out = zy1);
+    And(a = y[2], b = nzy, out = zy2);
+    And(a = y[3], b = nzy, out = zy3);
+    And(a = y[4], b = nzy, out = zy4);
+    And(a = y[5], b = nzy, out = zy5);
+    And(a = y[6], b = nzy, out = zy6);
+    And(a = y[7], b = nzy, out = zy7);
+    And(a = y[8], b = nzy, out = zy8);
+    And(a = y[9], b = nzy, out = zy9);
+    And(a = y[10], b = nzy, out = zy10);
+    And(a = y[11], b = nzy, out = zy11);
+    And(a = y[12], b = nzy, out = zy12);
+    And(a = y[13], b = nzy, out = zy13);
+    And(a = y[14], b = nzy, out = zy14);
+    And(a = y[15], b = nzy, out = zy15);
+                                  
+    // ny 
+    Xor(a = zy0, b = ny, out = y0);
+    Xor(a = zy1, b = ny, out = y1);
+    Xor(a = zy2, b = ny, out = y2);
+    Xor(a = zy3, b = ny, out = y3);
+    Xor(a = zy4, b = ny, out = y4);
+    Xor(a = zy5, b = ny, out = y5);
+    Xor(a = zy6, b = ny, out = y6);
+    Xor(a = zy7, b = ny, out = y7);
+    Xor(a = zy8, b = ny, out = y8);
+    Xor(a = zy9, b = ny, out = y9);
+    Xor(a = zy10, b = ny, out = y10);
+    Xor(a = zy11, b = ny, out = y11);
+    Xor(a = zy12, b = ny, out = y12);
+    Xor(a = zy13, b = ny, out = y13);
+    Xor(a = zy14, b = ny, out = y14);
+    Xor(a = zy15, b = ny, out = y15);   
+
+
+    // sum or &                   
+
+    //// sum
+    Xor(a = x0, b = y0, out = sum0);
+    And(a = x0, b = y0, out = carry0);
+    FullAdder(a = x1, b = y1, c = carry0, sum = sum1, carry = carry1);
+    FullAdder(a = x2, b = y2, c = carry1, sum = sum2, carry = carry2);
+    FullAdder(a = x3, b = y3, c = carry2, sum = sum3, carry = carry3);
+    FullAdder(a = x4, b = y4, c = carry3, sum = sum4, carry = carry4);
+    FullAdder(a = x5, b = y5, c = carry4, sum = sum5, carry = carry5);
+    FullAdder(a = x6, b = y6, c = carry5, sum = sum6, carry = carry6);
+    FullAdder(a = x7, b = y7, c = carry6, sum = sum7, carry = carry7);
+    FullAdder(a = x8, b = y8, c = carry7, sum = sum8, carry = carry8);
+    FullAdder(a = x9, b = y9, c = carry8, sum = sum9, carry = carry9);
+    FullAdder(a = x10, b = y10, c = carry9, sum = sum10, carry = carry10);
+    FullAdder(a = x11, b = y11, c = carry10, sum = sum11, carry = carry11);
+    FullAdder(a = x12, b = y12, c = carry11, sum = sum12, carry = carry12);
+    FullAdder(a = x13, b = y13, c = carry12, sum = sum13, carry = carry13);
+    FullAdder(a = x14, b = y14, c = carry13, sum = sum14, carry = carry14);
+    Xor(a = x15, b = y15, out = tempcar);
+    Xor(a = tempcar, b = carry14, out = sum15);
+
+
+    //// and
+    And(a = x0, b = y0, out = and0);
+    And(a = x1, b = y1, out = and1);
+    And(a = x2, b = y2, out = and2);
+    And(a = x3, b = y3, out = and3);
+    And(a = x4, b = y4, out = and4);
+    And(a = x5, b = y5, out = and5);
+    And(a = x6, b = y6, out = and6);
+    And(a = x7, b = y7, out = and7);
+    And(a = x8, b = y8, out = and8);
+    And(a = x9, b = y9, out = and9);
+    And(a = x10, b = y10, out = and10);
+    And(a = x11, b = y11, out = and11);
+    And(a = x12, b = y12, out = and12);
+    And(a = x13, b = y13, out = and13);
+    And(a = x14, b = y14, out = and14);
+    And(a = x15, b = y15, out = and15);
+
+    ////choose
+    Not(in = f, out = notf);
+
+    And(a = sum0, b = f, out = masksum0);
+    And(a = sum1, b = f, out = masksum1);
+    And(a = sum2, b = f, out = masksum2);
+    And(a = sum3, b = f, out = masksum3);
+    And(a = sum4, b = f, out = masksum4);
+    And(a = sum5, b = f, out = masksum5);
+    And(a = sum6, b = f, out = masksum6);
+    And(a = sum7, b = f, out = masksum7);
+    And(a = sum8, b = f, out = masksum8);
+    And(a = sum9, b = f, out = masksum9);
+    And(a = sum10, b = f, out = masksum10);
+    And(a = sum11, b = f, out = masksum11);
+    And(a = sum12, b = f, out = masksum12);
+    And(a = sum13, b = f, out = masksum13);
+    And(a = sum14, b = f, out = masksum14);
+    And(a = sum15, b = f, out = masksum15);
+    
+    And(a = and0, b = notf, out = maskand0);
+    And(a = and1, b = notf, out = maskand1);
+    And(a = and2, b = notf, out = maskand2);
+    And(a = and3, b = notf, out = maskand3);
+    And(a = and4, b = notf, out = maskand4);
+    And(a = and5, b = notf, out = maskand5);
+    And(a = and6, b = notf, out = maskand6);
+    And(a = and7, b = notf, out = maskand7);
+    And(a = and8, b = notf, out = maskand8);
+    And(a = and9, b = notf, out = maskand9);
+    And(a = and10, b = notf, out = maskand10);
+    And(a = and11, b = notf, out = maskand11);
+    And(a = and12, b = notf, out = maskand12);
+    And(a = and13, b = notf, out = maskand13);
+    And(a = and14, b = notf, out = maskand14);
+    And(a = and15, b = notf, out = maskand15);
+
+    Or(a = masksum0, b = maskand0, out = almost0);
+    Or(a = masksum1, b = maskand1, out = almost1);
+    Or(a = masksum2, b = maskand2, out = almost2);
+    Or(a = masksum3, b = maskand3, out = almost3);
+    Or(a = masksum4, b = maskand4, out = almost4);
+    Or(a = masksum5, b = maskand5, out = almost5);
+    Or(a = masksum6, b = maskand6, out = almost6);
+    Or(a = masksum7, b = maskand7, out = almost7);
+    Or(a = masksum8, b = maskand8, out = almost8);
+    Or(a = masksum9, b = maskand9, out = almost9);
+    Or(a = masksum10, b = maskand10, out = almost10);
+    Or(a = masksum11, b = maskand11, out = almost11);
+    Or(a = masksum12, b = maskand12, out = almost12);
+    Or(a = masksum13, b = maskand13, out = almost13);
+    Or(a = masksum14, b = maskand14, out = almost14);
+    Or(a = masksum15, b = maskand15, out = almost15);
+
+    // no
+    Not(in = almost0, out = notalmost0);
+    Not(in = almost1, out = notalmost1);
+    Not(in = almost2, out = notalmost2);
+    Not(in = almost3, out = notalmost3);
+    Not(in = almost4, out = notalmost4);
+    Not(in = almost5, out = notalmost5);
+    Not(in = almost6, out = notalmost6);
+    Not(in = almost7, out = notalmost7);
+    Not(in = almost8, out = notalmost8);
+    Not(in = almost9, out = notalmost9);
+    Not(in = almost10, out = notalmost10);
+    Not(in = almost11, out = notalmost11);
+    Not(in = almost12, out = notalmost12);
+    Not(in = almost13, out = notalmost13);
+    Not(in = almost14, out = notalmost14);
+    Not(in = almost15, out = notalmost15);
+
+
+    // finally
+    Mux(a = almost0, b = notalmost0, sel = no, out = finally0);
+    Mux(a = almost1, b = notalmost1, sel = no, out = finally1);
+    Mux(a = almost2, b = notalmost2, sel = no, out = finally2);
+    Mux(a = almost3, b = notalmost3, sel = no, out = finally3);
+    Mux(a = almost4, b = notalmost4, sel = no, out = finally4);
+    Mux(a = almost5, b = notalmost5, sel = no, out = finally5);
+    Mux(a = almost6, b = notalmost6, sel = no, out = finally6);
+    Mux(a = almost7, b = notalmost7, sel = no, out = finally7);
+    Mux(a = almost8, b = notalmost8, sel = no, out = finally8);
+    Mux(a = almost9, b = notalmost9, sel = no, out = finally9);
+    Mux(a = almost10, b = notalmost10, sel = no, out =finally10);
+    Mux(a = almost11, b = notalmost11, sel = no, out =finally11);
+    Mux(a = almost12, b = notalmost12, sel = no, out = finally12);
+    Mux(a = almost13, b = notalmost13, sel = no, out = finally13);
+    Mux(a = almost14, b = notalmost14, sel = no, out = finally14);
+    Mux(a = almost15, b = notalmost15, sel = no, out = finally15);
+    
+    //zr
+    Or(a = finally0, b = false, out = zero0);
+    Or(a = finally1, b = zero0, out = zero1);
+    Or(a = finally2, b = zero1, out = zero2);
+    Or(a = finally3, b = zero2, out = zero3);
+    Or(a = finally4, b = zero3, out = zero4);
+    Or(a = finally5, b = zero4, out = zero5);
+    Or(a = finally6, b = zero5, out = zero6);
+    Or(a = finally7, b = zero6, out = zero7);
+    Or(a = finally8, b = zero7, out = zero8);
+    Or(a = finally9, b = zero8, out = zero9);
+    Or(a = finally10, b = zero9, out = zero10);
+    Or(a = finally11, b = zero10, out = zero11);
+    Or(a = finally12, b = zero11, out = zero12);
+    Or(a = finally13, b = zero12, out = zero13);
+    Or(a = finally14, b = zero13, out = zero14);
+    Or(a = finally15, b = zero14, out = zero15);
+    Not(in = zero15, out = zr);
+
+    // ng 
+    And(a = finally15, b = true, out = ng);
+
+    // output
+    Xor(a = finally0, b = false, out = out[0]);
+    Xor(a = finally1, b = false, out = out[1]);
+    Xor(a = finally2, b = false, out = out[2]);
+    Xor(a = finally3, b = false, out = out[3]);
+    Xor(a = finally4, b = false, out = out[4]);
+    Xor(a = finally5, b = false, out = out[5]);
+    Xor(a = finally6, b = false, out = out[6]);
+    Xor(a = finally7, b = false, out = out[7]);
+    Xor(a = finally8, b = false, out = out[8]);
+    Xor(a = finally9, b = false, out = out[9]);
+    Xor(a = finally10, b = false, out = out[10]);
+    Xor(a = finally11, b = false, out = out[11]);
+    Xor(a = finally12, b = false, out = out[12]);
+    Xor(a = finally13, b = false, out = out[13]);
+    Xor(a = finally14, b = false, out = out[14]);
+    Xor(a = finally15, b = false, out = out[15]);
+}                                 
+                                  

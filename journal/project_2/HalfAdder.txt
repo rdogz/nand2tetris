@@ -1,0 +1,1 @@
+Developing the HalfAdder was easy and straightfoward, I only needed to draw the truth table and I saw which gates I had to use.

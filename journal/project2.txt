@@ -1,0 +1,5 @@
+The biggest thing for me was unlearning the way I think. Variables, Arrays, loops, if elses... They don't quite work when all we're doing is connecting wires. I cannot index an already 16 bit input. I can, however, create a new output bus with the bits I need to use. If I need the MSB or the LSB, or an 8 bit bus... I can create them on the output.
+
+I also tried to keep in mind how many Nand gates I was using "Shoud I use Xor with false to get the same output or an And with true? Well, And uses only 2 Nands while Xor uses 4. Wait... I can just carry over the bits I need to a new output bus! I don't need to waste extra gates!"
+
+Yeah, the project was fun. Tuning up my ALU was good too. I basically had to redo the ALU, while the first one took a lot of time, the second only took me about an hour. This kind of learning compounds. My monster ALU can be found in the relics on the project 2 dir.

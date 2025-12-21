@@ -1,6 +1,3 @@
-# Note to self (TODO) 
-add separate branch for journal
-
 # Nand2Tetris Project
 
 Implementation of a computer following the [Nand2Tetris](https://www.nand2tetris.org) course.

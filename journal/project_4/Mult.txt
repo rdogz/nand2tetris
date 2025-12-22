@@ -1,0 +1,3 @@
+The hardest part of this project was figuring out how to load the assembly file into the cpu emulator using their IDE. Turns out you gotta write to their Mult.asm, I was just loading the file from my computer hoping it would load, but as soon as I loaded the test script, all of my assembly code disapeared. Anyway.
+
+You kind of have to load the values into the register first before doing math or logical operations. Cannot load straight out of RAM except for the virtual registers (R0 - R15?). Easy enough, just had to get used to the syntax. The current implementation had  a complexity of O(n), meaning the number of iterations depends on how large the summation is. I know there's a more efficient algo, but for now this will suffice for the purpose of the project.

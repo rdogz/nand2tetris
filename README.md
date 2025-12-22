@@ -44,7 +44,7 @@ The course is divided into 12 projects:
 
 - [x] Project 01: Boolean Logic
 - [x] Project 02: Boolean Arithmetic
-- [ ] Project 03: Sequential Logic
+- [x] Project 03: Sequential Logic
 - [ ] Project 04: Machine Language
 - [ ] Project 05: Computer Architecture
 - [ ] Project 06: Assembler

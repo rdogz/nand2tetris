@@ -1,0 +1,1 @@
+This was easy. Just add a mux to the built in DFF. I already had an idea of how to build the DFF if needed because of the book "But How Do It Work", but this wasn't even needed. Just Mux them input and the stored bit with a load signal. Easy.

@@ -1,0 +1,3 @@
+The ram was just building on top of the register, and then on top of other ram chips I built until 16k.
+
+Using dmux to select which address I would access, then feeding the remaining bits in a chain-like way. Then using a Mux to select an specific register from an 8 register array.

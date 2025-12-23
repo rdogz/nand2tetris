@@ -1,0 +1,5 @@
+This was a little harder as I firstly got confused and thought I should make some kind of text editor having features like arrow keys to move around, backspace, newline, delete... this was because of a table with the values of these operation supported by the HACK machine. Well, that was not the case, I just needed to turn the screen black if any key was being pressed.
+
+I found how many registers in memory the screen took (around 8k), and then I added a limit at how many adresses the screen was allowed to write and clear. Yes, I did not do this at first and wrote -1 to the whole RAM. Lessons, lessons.
+
+Anyways, was a fun project and it got me out of bed to finish pretty early, and not many things are able to get me this motivated. It was challeging and fun. Next to the 5th chapter!

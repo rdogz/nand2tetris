@@ -1,0 +1,99 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/5/CPU.hdl
+/**
+ * The Hack Central Processing unit (CPU).
+ * Parses the binary code in the instruction input and executes it according to the
+ * Hack machine language specification. In the case of a C-instruction, computes the
+ * function specified by the instruction. If the instruction specifies to read a memory
+ * value, the inM input is expected to contain this value. If the instruction specifies
+ * to write a value to the memory, sets the outM output to this value, sets the addressM
+ * output to the target address, and asserts the writeM output (when writeM = 0, any
+ * value may appear in outM).
+ * If the reset input is 0, computes the address of the next instruction and sets the
+ * pc output to that value. If the reset input is 1, sets pc to 0.
+ * Note: The outM and writeM outputs are combinational: they are affected by the
+ * instruction's execution during the current cycle. The addressM and pc outputs are
+ * clocked: although they are affected by the instruction's execution, they commit to
+ * their new values only in the next cycle.
+ */
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+	//// Replace this comment with your code.
+
+    // Decoder (of instruction)
+    /* 1 1 1 a | c1 c2 c3 c4 | c5 c6 d1 d2 | d3 j1 j2 j3 */
+    And16(a = instruction, b = true, out[15] = imsb, 
+        out[12] = a, out[11] = c1, out[10] = c2, out[9] = c3, out[8] = c4, out[7] = c5, out[6] = c6, 
+        out[5] = d1, out[4] = d2, out[3] = d3, 
+        out[2] = j1, out[1] = j2, out[0] = j3);
+    
+    // control flow / data flow
+    Mux16(a = instruction, b = result, sel = imsb, out = Ainput);
+    Mux16(a = A, b = inM, sel = a, out = Y);
+    
+    // set registers
+    And(a = d3, b = imsb, out = writeM);
+    And(a = d2, b = imsb, out = writeD);
+    And(a = d1, b = imsb, out = Apart1);
+    Not(in = imsb, out = Apart2);
+    Or(a = Apart1, b = Apart2, out = writeA);
+
+
+    // Registers
+    //// A
+    Register(in = Ainput, load = writeA, out = A, out[0..14] = addressM);
+    //// D
+    DRegister(in = result, load = writeD, out = D);
+
+    // ALU
+    ALU(x = D, y = Y, 
+        zx = c1, nx = c2, zy = c3, ny = c4, f = c5, no = c6, 
+        out = result, out = outM, zr = zero, ng = negative);
+
+    /* JUMP WORKS */
+    // jump
+        Not(in = negative, out = nnegative);
+        And(a = nnegative, b = notzero, out = pos);
+        Not(in = zero, out = notzero);
+        Or(a = negative, b = zero, out = lequal);
+        Or(a = pos, b = zero, out = gequal);
+
+        // j1
+        Mux(a = false, b = negative, sel = j1, out = mux1);
+        Mux(a = zero, b = lequal, sel = j1, out = mux2);
+        Mux(a = pos, b = notzero, sel = j1, out = mux3);
+        Mux(a = gequal, b = true, sel = j1, out = mux4);
+
+        // j2
+        Mux(a = mux1, b = mux2, sel = j2, out = mux5);
+        Mux(a = mux3, b = mux4, sel = j2, out = mux6);
+
+        // j3
+        Mux(a = mux5, b = mux6, sel = j3, out = mux7);
+
+        //
+        And(a = mux7, b = imsb, out = jump);
+    /* JUMP WORKS */
+
+    /* PROBLEM: increment*/
+    // PC 
+    //// increment
+    Nand(a = reset, b = jump, out = increment);
+
+    PC(in = A, load = jump, inc = increment, reset = reset, out[0..14] = pc);
+
+}

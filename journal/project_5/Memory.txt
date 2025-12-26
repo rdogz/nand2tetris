@@ -1,0 +1,5 @@
+I honestly don't even remember how I solved the memory, so it must've been simple.
+
+Oh, I just checked it out and yeah, it was simple but the biggest issue was that I did not know I should use the Screen and Keyboard chips. I mean, the book does mention these and it was the reason why I was able to solve it. But took me a while trying to implement logic to use only the up 8k bits from the second RAM16K I was trying to implement. Turns out this is handled for you, even if you come up with a solution, doen't matter because you need those Screen and Keyboard chips.
+
+After that it was simple, pretty much another RAM chip contruction but more boring.

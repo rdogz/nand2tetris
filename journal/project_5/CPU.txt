@@ -1,0 +1,9 @@
+Ok. OK. OK. This one was hard. Took me some 7 hours and I went through a lot. First thing's first, the index of the LSB is 0 and it reflects the j3 control bit, it was a little counter intuitive because I was used to working with the LSB being on the left. Took me a while especially since working with inverted bits still gave me a somewhat correct output (not correct but was a start). Working with the correct indexing order was tough. At first I got all 0s outputs so I went back to the incorrect order until I tested out to see the output of that bit by indexing it and outputting on the writeM output bit. Worked like a charm. Now I knew everything was broken but it was a start.
+
+The I fought the bits to write the registers. Then the jump logic. Then for some reason the A register was being overwritten by the D register (???) it was but an issue of the write bits. It wasn't just about linking them to the registers, since only when the MSB is 1 that we should load the value to the register. An And chip did the trick. The writeA bit was a little more complicated (the problematic one) but I was able to solve it. 
+
+The last problem that I remember which took me the most time was figuring out the increment bit. Yeah, an Nand gate saved me. In Nand2Tetris. The irony was sweet. By the way, this was so hard because the Jump logic I wrote which I assumed was absolutely correct and could not be causing any issues was the issue. I was computing "out >= 0" twice. Until I looked through this it took me a looooooong time testing out every possible value to increment thinking the inc bit was the problem.
+
+I said 7 hours, but this was just today. I spent yesteday (don't know how  long) and on the day 24 during the night trying to build this CPU chip. Damn it feels good to be done.
+
+HELL YEAH

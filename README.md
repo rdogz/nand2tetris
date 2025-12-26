@@ -8,7 +8,7 @@ My journal for Nand2Tetris project. You can find some messy notes on my thought 
 - [x] Project 02: Boolean Arithmetic
 - [x] Project 03: Sequential Logic
 - [x] Project 04: Machine Language
-- [ ] Project 05: Computer Architecture
+- [x] Project 05: Computer Architecture
 - [ ] Project 06: Assembler
 - [ ] Project 07: Virtual Machine I
 - [ ] Project 08: Virtual Machine II
